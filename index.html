@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h3>Práctica con los verbos irregulares en el pretérito</h3>
+<p class="question-container" id="randomVerb">Verbo</p>
+<p class="question-container" id="randomPerson">Persona</p>
+
+<input type="text" id="answerTextBox" value="">
+
+<p></p>
+<button class="option" id="startButton" onclick="start()">Start</button>
+<p></p>
+<button class="option" id="checkButton" onclick="checkAnswer()" disabled = true>Submit</button>
+<button class="option" id="nextButton" onclick="nextQuestion()" disabled = true>Next</button>
+<p class="label-container" >Respuesta correcta:</p>
+<p class="answer-container" id="correctAnswer"></p>
+<p class="label-container" >Sí/No:</p>
+<p class="answer-container" id="correctOrIncorrect"></p>
+<p class="label-container" >Total:</p>
+<p class="answer-container" id="correctAndIncorrectCount"></p>
+<script>
+var numCorrect = 0;
+var numIncorrect = 0;
+var questionAnswerUsed;
+function start() {
+document.getElementById("checkButton").disabled= false;
+document.getElementById("nextButton").disabled= false;
+document.getElementById("startButton").disabled= true;
+nextQuestion();
+}
+function nextQuestion() {
+questionAnswerUsed = getValues();
+   document.getElementById("randomVerb").innerHTML = questionAnswerUsed.verb;
+   document.getElementById("randomPerson").innerHTML = questionAnswerUsed.question;
+}
+
+var input = document.getElementById("answerTextBox");
+var flipFlop = true;
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   if(flipFlop)
+   {
+   document.getElementById("checkButton").click();
+   flipFlop= !flipFlop;
+   }
+   else
+   {
+   document.getElementById("nextButton").click();
+      flipFlop= !flipFlop;
+	  document.getElementById("answerTextBox").value = "";
+	   document.getElementById("correctOrIncorrect").innerHTML = "";
+	   document.getElementById("correctAnswer").innerHTML = ""; 
+   }
+  }
+});
+
+function checkAnswer() {
+
+
+   var answer = questionAnswerUsed.answer;
+   
+  var inputFromTextbox = document.getElementById("answerTextBox").value;
+  var isCorrect = inputFromTextbox == answer;
+document.getElementById("correctAnswer").innerHTML = answer; 
+if(isCorrect)
+{
+ document.getElementById("correctOrIncorrect").innerHTML = "Muy bien!";
+ numCorrect++;
+ }
+ else
+ {
+ document.getElementById("correctOrIncorrect").innerHTML = "Pues, no...!";
+ numIncorrect++;
+ }
+ document.getElementById("correctAndIncorrectCount").innerHTML = numCorrect + "/" + (numCorrect + numIncorrect);
+}
+
+function getValues() {
+var randomNumberRow = Math.floor(Math.random() * 16);
+var randomNumberColumn = Math.floor(Math.random() * 7)+1;
+var answersArray = [	[	"verbo",	"stem",	"yo",	"tú",	"él/ella/ usted",	"nostros/nostras",	"vosotros/vosotros",	"ellos/ellas/  ustedes"	],	
+	[	"ir/ser",	"fu",	"fui",	"fuiste",	"fue",	"fuimos",	"fuisteis",	"fueron"	],	
+	[	"ver",	"v",	"vi",	"viste",	"vio",	"vimos",	"visteis",	"vieron"	],	
+	[	"dar",	"d",	"di",	"diste",	"dio",	"dimos",	"disteis",	"dieron"	],	
+	[	"hacer",	"hic",	"hice",	"hiciste",	"hizo",	"hicimos",	"hicisteis",	"hicieron"	],	
+	[	"querer",	"quis",	"quise",	"quisiste",	"quiso",	"quisimos",	"quisisteis",	"quisieron"	],	
+	[	"venir",	"vin",	"vine",	"viniste",	"vino",	"vinimos",	"vinisteis",	"vinieron"	],	
+	[	"poder",	"pud",	"pude",	"pudiste",	"pudo",	"pudimos",	"pudisteis",	"pudieron"	],	
+	[	"saber",	"sup",	"supe",	"supiste",	"supo",	"supimos",	"supisteis",	"supieron"	],	
+	[	"poner",	"pus",	"puse",	"pusiste",	"puso",	"pusimos",	"pusisteis",	"pusieron"	],	
+	[	"decir",	"dij",	"dije",	"dijiste",	"dijo",	"dijimos",	"dijisteis",	"dijeron"	],	
+	[	"traer",	"traj",	"traje",	"trajiste",	"trajo",	"trajimos",	"trajisteis",	"trajeron"	],	
+	[	"conducir",	"conduj",	"conduje",	"condujiste",	"condujo",	"condujimos",	"condujisteis",	"condujeron"	],	
+	[	"tener",	"tuv",	"tuve",	"tuviste",	"tuvo",	"tuvimos",	"tuvisteis",	"tuvieron"	],	
+	[	"andar",	"anduv",	"anduve ",	"anduviste",	"anduvo",	"anduvimos",	"anduvisteis",	"anduvieron"	],	
+	[	"estar",	"estuv",	"estuve",	"estuviste",	"estuvo",	"estuvimos",	"estuvisteis",	"estuvieron"	]	];
+
+	//return answersArray[0][0];
+	//const questionAnswer = {question: answersArray[1][1], verb: answersArray[2][2], answer:  answersArray[3][3]};
+	//return questionAnswer;
+
+	const questionAnswer = {question: answersArray[0][randomNumberColumn], verb: answersArray[randomNumberRow][0], answer:  answersArray[randomNumberRow][randomNumberColumn]};
+	return questionAnswer;
+	//return  randomNumberRow;
+}
+</script>
+
+
+</body>
+</html>
